@@ -503,20 +503,32 @@ Vue根实例（Root Instance）上的 `props` 现在需要用 `propsData` 来替
 
 When used with `v-bind`, the only falsy values are now: `null`, `undefined`, and `false`. This means `0` and empty strings will render as truthy. So for example, `v-bind:draggable="''"` will render as `draggable="true"`.
 
+在使用 `v-bind` 时，当前版本的假值有这些： `null`, `undefined` 和 `false` 。也就是说 `0` 和空字符串现在会被处理成真值。举个例子，`v-bind:draggable="''"` 现在会被渲染为 `draggable="true"`。
+
 For enumerated attributes, in addition to the falsy values above, the string `"false"` will also render as `attr="false"`.
 
+对于枚举属性，除了上述提到的，`"false"` 这个字符串也会被渲染为  `attr="false"` 。
+
 <p class="tip">Note that for other directives (e.g. `v-if` and `v-show`), JavaScript's normal truthiness still applies.</p>
+
+<p class="tip">注意，对于其他的指令 (如 `v-if` 和 `v-show`, 上述写法还是会被处理成真值。)</p>
 
 {% raw %}
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run your end-to-end test suite, if you have one. The <strong>failed tests</strong> should alert to you to any parts of your app that may be affected by this change.</p>
+  <h4>升级路径</h4>
+  <p>运行你的端到端测试（如果有的话）。<strong>failed tests</strong> 会提醒你的应用由于这个改动带来的影响。</p>
 </div>
 {% endraw %}
 
 ### Listening for Native Events on Components with `v-on`
 
+### 在组件上使用 `v-on` 来监听原生事件
+
 When used on a component, `v-on` now only listens to custom events `$emit`ted by that component. To listen for a native DOM event on the root element, you can use the `.native` modifier. For example:
+
+当使用组件时， `v-on` 现在只对自身 `$emit` 的自定义事件起作用。 如果需要在一个根元素上监听原生DOM事件，可以使用 `.native` 这个修饰器。举例：
 
 ``` html
 <my-component v-on:click.native="doSomething"></my-component>
@@ -526,14 +538,22 @@ When used on a component, `v-on` now only listens to custom events `$emit`ted by
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run your end-to-end test suite, if you have one. The <strong>failed tests</strong> should alert to you to any parts of your app that may be affected by this change.</p>
+  <h4>升级路径</h4>
+  <p>运行你的端到端测试（如果有的话）。<strong>failed tests</strong> 会提醒你的应用由于这个改动带来的影响。</p>
 </div>
 {% endraw %}
 
 ### `v-model` with `debounce` <sup>deprecated</sup>
 
+### `v-model` 和 `debounce` 结合使用 <sup>已废弃</sup>
+
 Debouncing is used to limit how often we execute Ajax requests and other expensive operations. Vue's `debounce` attribute parameter for `v-model` made this easy for very simple cases, but it actually debounced __state updates__ rather than the expensive operations themselves. It's a subtle difference, but it comes with limitations as an application grows.
 
+Debouncing现在被用于限制发送ajax请求，或其他费时操作的频率。 Vue中使用 `v-model` 的 `debounce` 属性适用于一些非常简单的例子， 但是实际上在运行中__状态变更__ 也延迟执行了，这个时间甚至会比那此费时操作更长。这个差别很小，但是随着应用规模的增长，会带来一定的限制。
+
 These limitations become apparent when designing a search indicator, like this one for example:
+
+这些限制在设计一个实时搜索框 (search indicator) 时会变得很明显，举例：
 
 {% raw %}
 <script src="https://cdn.jsdelivr.net/lodash/4.13.1/lodash.js"></script>
@@ -581,12 +601,18 @@ new Vue({
 
 Using the `debounce` attribute, there'd be no way to detect the "Typing" state, because we lose access to the input's real-time state. By decoupling the debounce function from Vue however, we're able to debounce only the operation we want to limit, removing the limits on features we can develop:
 
+如果使用 `debounce` 这个属性，就没有办法去检测 "Typing" 这个状态，因为这个input的实时状态我们无法
+得知。为了让Vue和这个debounce function解耦，我们可以只对需要的操作做限制，移除这个在特性上的限制：
+
 ``` html
 <!--
 By using the debounce function from lodash or another dedicated
 utility library, we know the specific debounce implementation we
 use will be best-in-class - and we can use it ANYWHERE. Not just
 in our template.
+-->
+<!--
+通过使用lodash或其他专门 的工具库中的debounce函数，下面这个使用debounce实践是最佳的 - 同时，我们可以在任何地方使用，而不仅是在模板中。
 -->
 <script src="https://cdn.jsdelivr.net/lodash/4.13.1/lodash.js"></script>
 <div id="debounce-search-demo">
@@ -635,16 +661,24 @@ new Vue({
 
 Another advantage of this approach is there will be times when debouncing isn't quite the right wrapper function. For example, when hitting an API for search suggestions, waiting to offer suggestions until after the user has stopped typing for a period of time isn't an ideal experience. What you probably want instead is a __throttling__ function. Now since you're already using a utility library like lodash, refactoring to use its `throttle` function instead takes only a few seconds.
 
+另外一个好处是，当debounce函数不是包裹函数时，还会耗费时间。举例，当命中搜索建议时，用户已经停止输入了还需要等待一段时间才能得到搜索结果的体验不太理想。这时可能需要一个 __throttling__ 函数来代替它。如果你已经使用了类似lodash这样的工具库，换成使用 `throttle` 函数，很快就能搞定。
+
 {% raw %}
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of the <code>debounce</code> attribute.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到 <code>debounce</code> 的例子。</p>
 </div>
 {% endraw %}
 
 ### `v-model` with `lazy` or `number` Param Attributes <sup>deprecated</sup>
 
+### `v-model` 和 `lazy` 或 `number` 这样的参数特性结合使用 <sup>已废弃</sup>
+
 The `lazy` and `number` param attributes are now modifiers, to make it more clear what That means instead of:
+
+`lazy` 和 `number` 这些参数特性现在是修饰器，以使代码更加清晰，也就是说替换以下例子：
 
 ``` html
 <input v-model="name" lazy>
@@ -652,6 +686,8 @@ The `lazy` and `number` param attributes are now modifiers, to make it more clea
 ```
 
 You would use:
+
+你可以这么写：
 
 ``` html
 <input v-model.lazy="name">
@@ -662,20 +698,30 @@ You would use:
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of the these deprecated param attributes.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到这些被废弃的参数特性的例子。</p>
 </div>
 {% endraw %}
 
 ### `v-model` with Inline `value` <sup>deprecated</sup>
 
+### `v-model` 和行内 `value` 结合使用 <sup>已废弃</sup>
+
 `v-model` no longer cares about the initial value of an inline `value` attribute. For predictability, it will instead always treat the Vue instance data as the source of truth.
 
+`v-model` 现在不再关心行内 `value` 属性的初始值。现在仅会根据Vue实例中的数据来处理。
+
 That means this element:
+
+也就是说这个元素：
 
 ``` html
 <input v-model="text" value="foo">
 ```
 
 backed by this data:
+
+在data中的数据是这样的：
 
 ``` js
 data: {
@@ -685,6 +731,8 @@ data: {
 
 will render with a value of "bar" instead of "foo". The same goes for a `<textarea>` with existing content. Instead of:
 
+会渲染成"bar"而不是"foo"。对于 `<textarea>` 也会做同样处理。如下：
+
 ``` html
 <textarea v-model="text">
   hello world
@@ -693,10 +741,14 @@ will render with a value of "bar" instead of "foo". The same goes for a `<textar
 
 You should ensure your initial value for `text` is "hello world".
 
+需要保证你的 `text` 初始化值是"hello world"。
+
 {% raw %}
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run your end-to-end test suite or app after upgrading and look for <strong>console warnings</strong> about inline value attributes with <code>v-model</code>.</p>
+  <h4>升级路径</h4>
+  <p>升级后运行你的端到端测试（如果有的话）。找到<strong>console warnings</strong> 中关于 inline value attributes with <code>v-model</code>的部分。</p>
 </div>
 {% endraw %}
 
