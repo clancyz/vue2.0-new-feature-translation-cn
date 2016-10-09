@@ -517,7 +517,7 @@ For enumerated attributes, in addition to the falsy values above, the string `"f
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run your end-to-end test suite, if you have one. The <strong>failed tests</strong> should alert to you to any parts of your app that may be affected by this change.</p>
-  <h4>升级路径</h4>
+  <h4>升级路线</h4>
   <p>运行你的端到端测试（如果有的话）。<strong>failed tests</strong> 会提醒你的应用由于这个改动带来的影响。</p>
 </div>
 {% endraw %}
@@ -538,7 +538,7 @@ When used on a component, `v-on` now only listens to custom events `$emit`ted by
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run your end-to-end test suite, if you have one. The <strong>failed tests</strong> should alert to you to any parts of your app that may be affected by this change.</p>
-  <h4>升级路径</h4>
+  <h4>升级路线</h4>
   <p>运行你的端到端测试（如果有的话）。<strong>failed tests</strong> 会提醒你的应用由于这个改动带来的影响。</p>
 </div>
 {% endraw %}
@@ -648,6 +648,7 @@ new Vue({
   },
   methods: {
     // This is where the debounce actually belongs.
+    // 这里是debounce实际生效的地方
     expensiveOperation: _.debounce(function () {
       this.isCalculating = true
       setTimeout(function () {
@@ -747,20 +748,27 @@ You should ensure your initial value for `text` is "hello world".
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run your end-to-end test suite or app after upgrading and look for <strong>console warnings</strong> about inline value attributes with <code>v-model</code>.</p>
-  <h4>升级路径</h4>
+  <h4>升级路线</h4>
   <p>升级后运行你的端到端测试（如果有的话）。找到<strong>console warnings</strong> 中关于 inline value attributes with <code>v-model</code>的部分。</p>
 </div>
 {% endraw %}
 
 ### `v-model` with `v-for` Iterated Primitive Values <sup>deprecated</sup>
 
+### 使用`v-model` 和 `v-for` 进行原始值迭代 <sup>已废弃</sup>
+
+
 Cases like this no longer work:
+
+这样的例子将不会工作：
 
 ``` html
 <input v-for="str in strings" v-model="str">
 ```
 
 The reason is this is the equivalent JavaScript that the `<input>` would compile to:
+
+因为这样的话，相当于 `<input>` 会被编译成如下的Javascript:
 
 ``` js
 strings.map(function (str) {
@@ -770,7 +778,11 @@ strings.map(function (str) {
 
 As you can see, `v-model`'s two-way binding doesn't make sense here. Setting `str` to another value in the iterator function will do nothing because it's just a local variable in the function scope.
 
+如你所见，`v-model` 的双向绑定在这里行不通。在迭代函数中设置 `str`为其他的值将没有作用，因为它在函数作用域中只是一个本地变量。 
+
 Instead, you should use an array of __objects__ so that `v-model` can update the field on the object. For example:
+
+你可以使用一个 __objects__ 数组来替代，以使  `v-model` 可以在这个对象上进行更新。举例：
 
 ``` html
 <input v-for="obj in objects" v-model="obj.str">
@@ -780,18 +792,26 @@ Instead, you should use an array of __objects__ so that `v-model` can update the
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run your test suite, if you have one. The <strong>failed tests</strong> should alert to you to any parts of your app that may be affected by this change.</p>
+  <h4>升级路线</h4>
+  <p>运行你的测试（如果有的话）。<strong>failed tests</strong> 会提醒你的应用由于这个改动带来的影响。</p>
 </div>
 {% endraw %}
 
 ### `v-bind:style` with Object Syntax and `!important` <sup>deprecated</sup>
 
+### 在`v-bind:style`表达式中同时使用Object声明和 `!important` <sup>已废弃</sup>
+
 This will no longer work:
+
+以下例子将不再工作：
 
 ``` html
 <p v-bind:style="{ color: myColor + ' !important' }">hello</p>
 ```
 
 If you really need to override another `!important`, you must use the string syntax:
+
+如果你确实需要覆盖另外一个 `!important`，需要使用字符串拼接：
 
 ``` html
 <p v-bind:style="'color: ' + myColor + ' !important'">hello</p>
@@ -801,14 +821,22 @@ If you really need to override another `!important`, you must use the string syn
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of style bindings with <code>!important</code> in objects.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到有<code>!important</code>的style绑定的例子。</p>
 </div>
 {% endraw %}
 
 ### `v-el` and `v-ref` <sup>deprecated</sup>
 
+### `v-el` 和 `v-ref` <sup>已废弃</sup>
+
 For simplicity, `v-el` and `v-ref` have been merged into the `ref` attribute, accessible on a component instance via `$refs`. That means `v-el:my-element` would become `ref="myElement"` and `v-ref:my-component` would become `ref="myComponent"`. When used on a normal element, the `ref` will be the DOM element, and when used on a component, the `ref` will be the component instance.
 
+简单说，`v-el` 和 `v-ref` 已经被合并为 `ref`属性，同时在组件实例中可以通过 `$refs` 来访问它。也就是说 `v-el:my-element` 会变成 `ref="myElement"` ，`v-ref:my-component` 会变成 `ref="myComponent"` 。当在一个普通html元素上使用时， `ref`会是这个DOM元素，当在一个组件上使用时，`ref`将会是这个组件的实例。
+
 Since `v-ref` is no longer a directive, but a special attribute, it can also be dynamically defined. This is especially useful in combination with `v-for`. For example:
+
+虽然 `v-ref` 已经不再是一个内置指令而是个特殊属性，同样可以动态声明它。当在和 `v-for` 一起使用时会变得更实用。举例。
 
 ``` html
 <p v-for="item in items" v-bind:ref="'item' + item.id"></p>
@@ -816,24 +844,36 @@ Since `v-ref` is no longer a directive, but a special attribute, it can also be 
 
 Previously, `v-el`/`v-ref` combined with `v-for` would produce an array of elements/components, because there was no way to give each item a unique name. You can still achieve this behavior by given each item the same `ref`:
 
+在之前版本中，`v-el`/`v-ref` 和 `v-for` 一起使用时，会产生一个 html元素/组件的数组，因为没有别的方式可以给每个item定义唯一的名称。同时你也可以通过给每个item同样的`ref`来实现这个功能：
+
 ``` html
 <p v-for="item in items" ref="items"></p>
 ```
 
 Unlike in 1.x, these `$refs` are not reactive, because they're registered/updated during the render process itself. Making them reactive would require duplicate renders for every change.
 
+不像1.x版本， 这些 `$refs` 不是响应式的，因为在渲染过程中已经注册或更新过它们了。让它们变为响应式需要对每个改动做重复的渲染工作。
+
 On the other hand, `$refs` are designed primarily for programmatic access in JavaScript - it is not recommended to rely on them in templates, because that would mean referring to state that does not belong to the instance itself. This would violate Vue's data-driven view model.
+
+另一方面， `$refs` 主要是被设计成在Javascript程序中访问的 - 所以并不推荐在模板中去依赖它们，因为指向的是不属于该实例本身的状态。这会违反Vue的数据驱动视图模型。
 
 {% raw %}
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of <code>v-el</code> and <code>v-ref</code>.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到有 <code>v-el</code> 和 <code>v-ref</code>的例子。</p>
 </div>
 {% endraw %}
 
 ### `v-else` with `v-show` <sup>deprecated</sup>
 
+### `v-else` 和 `v-show` 结合使用 <sup>已废弃</sup>
+
 `v-else` no longer works with `v-show`. Use `v-if` with a negation expression instead. For example, instead of:
+
+`v-else` 和 `v-show` 将不能在一起结合使用。 使用 `v-if`和一个否定表达式来替代。举例，要替换：
 
 ``` html
 <p v-if="foo">Foo</p>
@@ -841,6 +881,8 @@ On the other hand, `$refs` are designed primarily for programmatic access in Jav
 ```
 
 You can use:
+
+可以写成：
 
 ``` html
 <p v-if="foo">Foo</p>
@@ -851,39 +893,61 @@ You can use:
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of the <code>v-else</code> with <code>v-show</code>.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到有 <code>v-else</code> 和 <code>v-show</code>结合使用的例子。</p>
 </div>
 {% endraw %}
 
 ## Custom Directives
 
+## 自定义指令
+
 Directives have a greatly reduced scope of responsibility: they are now only used for applying low-level direct DOM manipulations. In most cases, you should prefer using components as the main code-reuse abstraction.
+
+指令（Directives）的职责范围被大大缩小了：它们现在只能用于执行一些低级的直接DOM操作。大多数情况下你更应该去使用组件(components)来进行代码复用。
 
 Some of the most notable differences include:
 
+一些最需要说明的不同点包括：
+
 - Directives no longer have instances. This means there's no more `this` inside directive hooks. Instead, they receive everything they might need as arguments. If you really must persist state across hooks, you can do so on `el`.
+- Directives将不再会有实例。也就是说在directive的钩子函数中将不存在`this`。在指令中所有需要的东西都将使用参数传入。如果你需要在钩子中做状态持久化，可以在`el`中处理。
 - Options such as `acceptStatement`, `deep`, `priority`, etc are all deprecated. To replace `twoWay` directives, see [this example](#Two-Way-Filters-deprecated).
+- 像 `acceptStatement`, `deep`, `priority` 等选项已经全部被废弃。替代双向绑定的directives，可见[这个例子](#Two-Way-Filters-deprecated)。
 - Some of the current hooks have different behavior and there are also a couple new hooks.
+- 现有的directive钩子将会有不同的行为，同时会有一些新钩子。
 
 Fortunately, since the new directives are much simpler, you can master them more easily. Read the new [Custom Directives guide](custom-directive.html) to learn more.
+
+幸运的是，新的directives变得简单多了，掌握起来也更为简单。可以看新的[自定义指令指南](custom-directive.html) 了解更多。
 
 {% raw %}
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of defined directives. The helper will flag all of them, as it's likely in most cases that you'll want to refactor to a component.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到定义directive的例子。它们会被helper全部标记，在大多数情况下你需要将它重构为一个component。</p>
 </div>
 {% endraw %}
 
 ### Directive `.literal` Modifier <sup>deprecated</sup>
 
+### 指令的 `.literal` 修饰器 <sup>已废弃</sup>
+
+
 The `.literal` modifier has been removed, as the same can be easily achieved by just providing a string literal as the value.
 
+`.literal`这个修饰器已经被移除，因为可以直接通过提供一个字符串字面量来实现。
+
 For example, you can update:
+
+举例：
 
 ``` js
 <p v-my-directive.literal="foo bar baz"></p>
 ```
 
-to just:
+可以直接改为：
 
 ``` html
 <p v-my-directive="'foo bar baz'"></p>
@@ -893,76 +957,124 @@ to just:
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of the `.literal` modifier on a directive.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到有在directive上定义 `.literal`修饰器的例子。</p>
 </div>
 {% endraw %}
 
 ## Transitions
 
+## 过渡（Transitions）
+
 ### `transition` Attribute <sup>deprecated</sup>
 
+### `transition` 属性 <sup>已废弃</sup>
+
 Vue's transition system has changed quite drastically and now uses `<transition>` and `<transition-group>` wrapper elements, rather than the `transition` attribute. It's recommended to read the new [Transitions guide](transitions.html) to learn more.
+
+Vue的过渡系统已经进行了大幅度改动，现在需要使用`<transition>` 和 `<transition-group>` 元素进行包裹，而不是使用`transition` 属性。推荐阅读新的[过渡指南](transitions.html) 来了解更多。
 
 {% raw %}
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of the <code>transition</code> attribute.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到有<code>transition</code>属性的例子。</p>
 </div>
 {% endraw %}
 
 ### `Vue.transition` for Reusable Transitions <sup>deprecated</sup>
 
+### 使用`Vue.transition` 创建复用的过渡 <sup>已废弃</sup>
+
+
 With the new transition system, you can now just [use components for reusable transitions](http://rc.vuejs.org/guide/transitions.html#Reusable-Transitions).
+
+在新的过渡系统下，你可以直接 [使用组件实现复用过渡](http://rc.vuejs.org/guide/transitions.html#Reusable-Transitions)。
 
 {% raw %}
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of <code>Vue.transition</code>.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到有<code>Vue.transition</code>属性的例子。</p>
 </div>
 {% endraw %}
 
 ### Transition `stagger` Attribute <sup>deprecated</sup>
 
+### 过渡的 `stagger` 属性 <sup>已废弃</sup>
+
 If you need to stagger list transitions, you can control timing by setting and accessing a `data-index` (or similar attribute) on an element. See [an example here](transitions.html#Staggering-List-Transitions).
+
+如果你要为一个列表创建一个渐近过渡，可以通过设置和访问 `data-index` （或类似的属性）来控制过渡时间。看[这个例子](transitions.html#Staggering-List-Transitions)。
 
 {% raw %}
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of the <code>transition</code> attribute. During your update, you can transition (pun very much intended) to the new staggering strategy as well.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到有 <code>transition</code>属性的例子。在升级过程中，你也可以“过渡”到新的渐近过渡策略上来。</p>
 </div>
 {% endraw %}
 
 ## Events
 
+## 事件
+
 ### `events` option <sup>deprecated</sup>
+
+### `events` 选项 <sup>已废弃</sup>
 
 The `events` option has been deprecated. Event handlers should now be registered in the `created` hook instead. Check out the [`$dispatch` and `$broadcast` migration guide](#dispatch-and-broadcast-deprecated) for a detailed example.
 
+`events`选项已经被废弃。在`created`钩子中会注册事件处理器。请查看[`$dispatch` 和 `$broadcast` 迁移指南](#dispatch-and-broadcast-deprecated)这个详细示例。
+
 ### `Vue.directive('on').keyCodes` <sup>deprecated</sup>
+
+### `Vue.directive('on').keyCodes` <sup>已废弃</sup>
 
 The new, more concise way to configure `keyCodes` is through`Vue.config.keyCodes`. For example:
 
+新的更简洁的方式来设置 `keyCodes` 是通过`Vue.config.keyCodes`。举例：
+
 ``` js
 // enable v-on:keyup.f1
+// 启用v-on:keyup.f1
 Vue.config.keyCodes.f1 = 112
 ```
 {% raw %}
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of the the old <code>keyCode</code> configuration syntax.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到有使用老的<code>keyCode</code>方式进行设置的例子。</p>
 </div>
 {% endraw %}
 
 ### `$dispatch` and `$broadcast` <sup>deprecated</sup>
 
+### `$dispatch` and `$broadcast` <sup>已废弃</sup>
+
 `$dispatch` and `$broadcast` are being deprecated in favor of more explicitly cross-component communication and more maintainable state management solutions, such as [Vuex](https://github.com/vuejs/vuex).
+
+`$dispatch` 和 `$broadcast` 被废弃的原因是：现在有更加清晰的组件间通信和可维护性更好状态管理方案，如 [Vuex](https://github.com/vuejs/vuex)。
 
 The problem is event flows that depend on a component's tree structure can be hard to reason about and very brittle when the tree becomes large. It simply doesn't scale well and we don't want to set you up for pain later. `$dispatch` and `$broadcast` also do not solve communication between sibling components.
 
+问题在于，组件树变得越来越大时，基于组件树结构的事件流将很难跟踪和维护，可扩展性也不好，我们不想让你后续再痛苦下去。`$dispatch` 和 `$broadcast` 也不能很好地解决兄弟组件的通信问题。
+
 One of the most common uses for these methods is to communicate between a parent and its direct children. In these cases, you can actually [listen to an `$emit` from a child with `v-on`](http://vuejs.org/guide/components.html#Form-Input-Components-using-Custom-Events). This allows you to keep the convenience of events with added explicitness.
+
+最常使用这些方法的是在实现父组件和下一级子组件通信的时候。在这些场景下，你实际上可以可以[使用 `v-on` 监听来自子组件的 `$emit`](http://vuejs.org/guide/components.html#Form-Input-Components-using-Custom-Events)。
 
 However, when communicating between distant descendants/ancestors, `$emit` won't help you. Instead, the simplest possible upgrade would be to use a centralized event hub. This has the added benefit of allowing you to communicate between components no matter where they are in the component tree - even between siblings! Because Vue instances implement an event emitter interface, you can actually use an empty Vue instance for this purpose.
 
+但是，当在和跨多层级的子孙组件/祖先组件进行通信时，`$emit` 也起不了作用。最简单的可能升级方式是使用一个「中央事件管理枢纽」。这样做的好处是：你可以在组件树中 -- 甚至是在兄弟组件间通信！因为Vue的实例实现了一个事件发射器，你可以用一个空的Vue实例来实现它。
+
 For example, let's say we have a todo app structured like this:
+
+举例，比如说我们有一个todo的应用，像是如下的结构：
 
 ```
 Todos
@@ -973,16 +1085,22 @@ Todos
 
 We could manage communication between components with this single event hub:
 
+我们可以在这个单事件枢纽中来管理组件间通信：
+
 ``` js
 // This is the event hub we'll use in every
 // component to communicate between them.
+// 我们在每个组件中都要使用这个「事件枢纽」来进行它们之间的通信。
 var eventHub = new Vue()
 ```
 
 Then in our components, we can use `$emit`, `$on`, `$off` to emit events, listen for events, and clean up event listeners, respectively:
 
+然后在组件中，我们可以使用 `$emit`, `$on`, `$off` 来派发事件，监听事件，清除事件监听器，分别是：
+
 ``` js
 // NewTodoInput
+// 创建一个新Todo的input
 // ...
 methods: {
   addTodo: function () {
@@ -994,6 +1112,7 @@ methods: {
 
 ``` js
 // DeleteTodoButton
+// 删除todo的按钮
 // ...
 methods: {
   deleteTodo: function (id) {
@@ -1011,6 +1130,7 @@ created: function () {
 },
 // It's good to clean up event listeners before
 // a component is destroyed.
+// 在组件被销毁时清空事件监听器是很好的实践
 beforeDestroy: function () {
   eventHub.$off('add-todo', this.addTodo)
   eventHub.$off('delete-todo', this.deleteTodo)
@@ -1029,24 +1149,40 @@ methods: {
 
 This pattern can serve as a replacement for `$dispatch` and `$broadcast` in simple scenarios, but for more complex cases, it's recommended to use a dedicated state management layer such as [Vuex](https://github.com/vuejs/vuex).
 
+这种模式在简单场景中可以替代`$dispatch` 和 `$broadcast`；但在更复杂场景中，推荐使用专用的状态管理层，如[Vuex](https://github.com/vuejs/vuex)。
+
 {% raw %}
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of <code>$dispatch</code> and <code>$broadcast</code>.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到有 <code>$dispatch</code>和<code>$broadcast</code>的例子。</p>
 </div>
 {% endraw %}
 
 ## Filters
 
+## 过滤器
+
 ### Filters Outside Text Interpolations <sup>deprecated</sup>
+
+### 在文本插值外使用过滤器 <sup>已废弃</sup>
 
 Filters can now only be used inside text interpolations (`{% raw %}{{ }}{% endraw %}` tags). In the past we've found using filters within directives such as `v-model`, `v-on`, etc led to more complexity than convenience. For list filtering on `v-for`, it's also better to move that logic into JavaScript as computed properties, so that it can be reused throughout your component.
 
+过滤器现在只能在文本插值 (`{% raw %}{{ }}{% endraw %}` 标记)之内使用。过去我们发现在内置指令如 `v-model` , `v-on` 等中使用filter时，复杂度要大于带来的便利。如在列表中使用`v-for` 并进行过滤，更好的方式是把这部分逻辑移动到Javascript中使用computed property来实现，这样在组件中也可以复用过滤后的数据。
+
 In general, whenever something can be achieved in plain JavaScript, we want to avoid introducing a special syntax like filters to take care of the same concern. Here's how you can replace Vue's built-in directive filters:
+
+总之，在简单的Javascript可以实现的功能，我们都避免去引入一个特殊的语法，如filter去实现同样简单的功能。Vue的内置指令filter的替换可以参考以下例子：
 
 #### Replacing the `debounce` Filter
 
+#### 替换`debounce`过滤器
+
 Instead of:
+
+替换如下例子：
 
 ``` html
 <input v-on:keyup="doStuff | debounce 500">
@@ -1062,6 +1198,8 @@ methods: {
 
 Use [lodash's `debounce`](https://lodash.com/docs/4.15.0#debounce) (or possibly [`throttle`](https://lodash.com/docs/4.15.0#throttle)) to directly limit calling the expensive method. You can achieve the same as above like this:
 
+可以使用 [lodash的 `debounce`](https://lodash.com/docs/4.15.0#debounce) （或可能需要使用 [`throttle`](https://lodash.com/docs/4.15.0#throttle)）来直接限制费时操作的调用。可以像这样达成同样效果：
+
 ``` html
 <input v-on:keyup="doStuff">
 ```
@@ -1076,15 +1214,23 @@ methods: {
 
 For more on the advantages of this strategy, see [the example here with `v-model`](#v-model-with-debounce-deprecated).
 
+这个策略带来的好处，看[`v-model`的这个例子](#v-model-with-debounce-deprecated)了解更多。
+
 #### Replacing the `limitBy` Filter
 
+#### 替换 `limitBy` 过滤器
+
 Instead of:
+
+替换如下例子：
 
 ``` html
 <p v-for="item in items | limitBy 10">{{ item }}</p>
 ```
 
 Use JavaScript's built-in [`.slice` method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice#Examples) in a computed property:
+
+可以在一个计算属性中使用Javascript原生的[`.slice` 方法](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice#Examples)：
 
 ``` html
 <p v-for="item in filteredItems">{{ item }}</p>
@@ -1100,13 +1246,19 @@ computed: {
 
 #### Replacing the `filterBy` Filter
 
+#### 替换 `filterBy` 过滤器
+
 Instead of:
+
+替换如下例子：
 
 ``` html
 <p v-for="user in users | filterBy searchQuery in 'name'">{{ user.name }}</p>
 ```
 
 Use JavaScript's built-in [`.filter` method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter#Examples) in a computed property:
+
+可以在一个计算属性中使用Javascript原生的[`.filter` 方法](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice#Examples)：
 
 ``` html
 <p v-for="user in filteredUsers">{{ user.name }}</p>
@@ -1124,6 +1276,8 @@ computed: {
 
 JavaScript's native `.filter` can also manage much more complex filtering operations, because you have access to the full power of JavaScript within computed properties. For example, if you wanted to find all active users and case-insensitively match against both their name and email:
 
+JavaScript的原生 `.filter` 可以处理更加复杂的操作，因为在computed property中你可以使用完整的Javascript。举个例子，如果需要找出所有的 active users，同时name和email都是不区分大小写的：
+
 ``` js
 this.users.filter(function (user) {
   var searchRegex = new RegExp(this.searchQuery, 'i')
@@ -1136,13 +1290,19 @@ this.users.filter(function (user) {
 
 #### Replacing the `orderBy` Filter
 
+#### 替换 `orderBy` 过滤器
+
 Instead of:
+
+替换如下例子：
 
 ``` html
 <p v-for="user in users | orderBy 'name'">{{ user.name }}</p>
 ```
 
 Use [lodash's `orderBy`](https://lodash.com/docs/4.15.0#orderBy) (or possibly [`sortBy`](https://lodash.com/docs/4.15.0#sortBy)) in a computed property:
+
+在一个计算属性中使用[lodash的 `orderBy`](https://lodash.com/docs/4.15.0#orderBy) (或者可能使用 [`sortBy`](https://lodash.com/docs/4.15.0#sortBy))：
 
 ``` html
 <p v-for="user in orderedUsers">{{ user.name }}</p>
@@ -1158,6 +1318,8 @@ computed: {
 
 You can even order by multiple columns:
 
+你甚至可以进行多列排序：
+
 ``` js
 _.orderBy(this.users, ['name', 'last_login'], ['asc', 'desc'])
 ```
@@ -1166,18 +1328,26 @@ _.orderBy(this.users, ['name', 'last_login'], ['asc', 'desc'])
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of filters being used inside directives. If you miss any, you should also see <strong>console errors</strong>.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到有在内置指令上使用filters的例子。如果没有被完全替换，会看到 <strong>console errors</strong>。</p>
 </div>
 {% endraw %}
 
 ### Filter Argument Syntax
 
+### 过滤器参数语法
+
 Filters' syntax for arguments now better aligns with JavaScript function invocation. So instead of taking space-delimited arguments:
+
+过滤器参数的语法现在和Javascript的函数调用相同。因此，如下这样空格分隔的参数：
 
 ``` html
 <p>{{ date | formatDate 'YY-MM-DD' timeZone }}</p>
 ```
 
 We surround the arguments with parentheses and delimit the arguments with commas:
+
+用括号包裹，逗号分隔：
 
 ``` html
 <p>{{ date | formatDate('YY-MM-DD', timeZone) }}</p>
@@ -1187,20 +1357,34 @@ We surround the arguments with parentheses and delimit the arguments with commas
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of the old filter syntax. If you miss any, you should also see <strong>console errors</strong>.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到有在内置指令上使用filters的例子。如果没有被完全替换，会看到 <strong>console errors</strong>。</p>
 </div>
 {% endraw %}
 
 ### Built-In Text Filters <sup>deprecated</sup>
 
+### 内置文本过滤器 <sup>已废弃</sup>
+
 Although filters within text interpolations are still allowed, all of the filters have been removed. Instead, it's recommended to use more specialized libraries for solving problems in each domain (e.g. [`date-fns`](https://date-fns.org/) to format dates and [`accounting`](http://openexchangerates.github.io/accounting.js/) for currencies).
+
+尽管仍允许在文本插值中使用过滤器，所有内置过滤器都已经被移除了。推荐使用其他专门处理这些领域问题的库 (如 [`date-fns`](https://date-fns.org/) 用于格式化日期 ， [`accounting`](http://openexchangerates.github.io/accounting.js/) 用于格式化货币)。
 
 For each of Vue's built-in text filters, we go through how you can replace them below. The example code could exist in custom helper functions, methods, or computed properties.
 
+对于Vue内置过滤器, 我们将在下面例子中说明如何替代他们。这些示例代码可以被放在自定义的帮助函数，方法，或计算属性中。
+
 #### Replacing the `json` Filter
+
+#### 替换 `json` 过滤器
 
 You actually don't need to for debugging anymore, as Vue will nicely format output for you automatically, whether it's a string, number, array, or plain object. If you want the exact same functionality as JavaScript's `JSON.stringify` though, then you can use that in a method or computed property.
 
+实际上并不需要任何的调试，因为Vue为自动格式化输出，不管是字符串，数字，数组或简单对象。如果你需要和Javascript的 `JSON.stringify` 方法实现同样的功能，可以将它放在方法或计算属性中。
+
 #### Replacing the `capitalize` Filter
+
+#### 替换  `capitalize` 过滤器
 
 ``` js
 text[0].toUpperCase() + text.slice(1)
@@ -1208,11 +1392,16 @@ text[0].toUpperCase() + text.slice(1)
 
 #### Replacing the `uppercase` Filter
 
+#### 替换  `uppercase` 过滤器
+
 ``` js
 text.toUpperCase()
 ```
 
 #### Replacing the `lowercase` Filter
+
+#### 替换  `lowercase` 过滤器
+
 
 ``` js
 text.toLowerCase()
@@ -1220,7 +1409,11 @@ text.toLowerCase()
 
 #### Replacing the `pluralize` Filter
 
+#### 替换  `pluralize` 过滤器
+
 The [pluralize](https://www.npmjs.com/package/pluralize) package on NPM serves this purpose nicely, but if you only want to pluralize a specific word or want to have special output for cases like `0`, then you can also easily define your own pluralize functions. For example:
+
+[pluralize](https://www.npmjs.com/package/pluralize) 这个npm包可以很好实现这个功能，但是如果你只是需要一个特殊单词的复数形式，或特殊的输出格式如`0`, 那么可以定义你自己的复数函数。举例：
 
 ``` js
 function pluralizeKnife (count) {
@@ -1236,7 +1429,11 @@ function pluralizeKnife (count) {
 
 #### Replacing the `currency` Filter
 
+#### 替换  `currency` 过滤器
+
 For a very naive implementation, you could just do something like this:
+
+一个非常简单的实现，可以直接这么做：
 
 ``` js
 '$' + price.toFixed(2)
@@ -1244,14 +1441,20 @@ For a very naive implementation, you could just do something like this:
 
 In many cases though, you'll still run into strange behavior (e.g. `0.035.toFixed(2)` rounds up to `0.4`, but `0.045` rounds down to `0.4`). To work around these issues, you can use the [`accounting`](http://openexchangerates.github.io/accounting.js/) library to more reliably format currencies.
 
+但在很多场景中，你会遇到一些奇怪的行为 （如`0.035.toFixed(2)` 会四舍五入成 `0.4`, but `0.045` 会四舍五入成 `0.4`)。要处理这些问题，可以使用[`accounting`](http://openexchangerates.github.io/accounting.js/) 库来进行更可靠的货币格式化。
+
 {% raw %}
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of the deprecated text filters. If you miss any, you should also see <strong>console errors</strong>.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到有使用这些已废弃的text filters的例子。如果没有被完全替换，会看到 <strong>console errors</strong>。</p>
 </div>
 {% endraw %}
 
 ### Two-Way Filters <sup>deprecated</sup>
+
+### 双向过滤器 <sup>已废弃</sup>
 
 Some users have enjoyed using two-way filters with `v-model` to create interesting inputs with very little code. While _seemingly_ simple however, two-way filters can also hide a great deal of complexity - and even encourage poor UX by delaying state updates. Instead, components wrapping an input are recommended as a more explicit and feature-rich way of creating custom inputs.
 
