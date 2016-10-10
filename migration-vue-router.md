@@ -6,13 +6,23 @@ order: 25
 
 > Only Vue Router 2 is compatible with Vue 2, so if you're updating Vue, you'll have to update Vue Router as well. That's why we've included details on the migration path here in the main docs. For a complete guide on using the new Vue Router, see the [Vue Router docs](http://router.vuejs.org/en/).
 
+> 只有Vue Router 2和Vue 2是兼容的，所以如果更新了Vue,你也必须更新Vue Router。我们在主文档中会包含详细的迁移路线。如果想看新的Vue Router完全版的指南，请看[Vue Router文档](http://router.vuejs.org/en/)。
+
 <p class="tip">The list of deprecations below should be relatively complete, but the migration helper is still being updated to catch them.</p>
+
+<p class="tip">下面被提及的废弃内容已经全部完成，但是migration helper还在更新中。</p>
 
 ## Route Definitions
 
+## 路由定义
+
 ### `router.map` <sup>deprecated</sup>
 
+### `router.map` <sup>已废弃</sup>
+
 Routes are now defined as an array on a [`routes` option](http://router.vuejs.org/en/essentials/getting-started.html#javascript) at router instantiation. So these routes for example:
+
+路由现在在路由实例的[路由选项](http://router.vuejs.org/en/essentials/getting-started.html#javascript)中被定义为一个数组。举例，下面这些路由的写法：
 
 ``` js
 router.map({
@@ -27,6 +37,8 @@ router.map({
 
 Will instead be defined with:
 
+将会被替代为：
+
 ``` js
 var router = new VueRouter({
   routes: [
@@ -37,6 +49,8 @@ var router = new VueRouter({
 ```
 
 The array syntax allows more predictable route matching, since iterating over an object is not guaranteed to use the same key order across browsers.
+
+数组语法让路由匹配更加可预期，因为在对象上进行迭代在不同的浏览上不能保证用同样的key。
 
 {% raw %}
 <div class="upgrade-path">
