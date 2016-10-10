@@ -28,7 +28,7 @@ order: 24
 
 - 你有多少次在玩一个很酷的新特性时抓狂过。不单是你，我们在开发2.0时也这样！
 
-- 你使用了哪些被废弃的特性。大多数都可以通过「查找-替换」升级完成，但是小部分需要一些时间。如果你没有使用推荐的最佳初中，Vue 2.0也会强制让你按这么去做。长远来看这是件好事，但是也可能意味着这是一个标志性（可能有点过了）的重构。
+- 你使用了哪些被废弃的特性。大多数都可以通过「查找-替换」升级完成，但是小部分需要一些时间。如果你没有使用推荐的最佳实践，Vue 2.0也会强制让你按这么去做。长远来看这是件好事，但是也可能意味着这是一个标志性（可能有点过了）的重构。
 
 > 如果升级到了Vue 2, 也需要同时升级Vuex和Vue-Router吗？
 
@@ -72,24 +72,24 @@ Vuex方面，甚至0.8版本都可以和Vue 2兼容，所以升级并非强制�
 {% raw %}
 <div class="upgrade-path">
   <h4>升级路线</h4>
-  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到所有这个hook。</p>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到所有这个钩子。</p>
 </div>
 {% endraw %}
 
 ### `compiled` <sup>已废弃</sup>
 
-使用新的hook`mounted`来替代。
+使用新的钩子`mounted`来替代。
 
 {% raw %}
 <div class="upgrade-path">
   <h4>升级路线</h4>
-  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到所有这个hook。</p>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到所有这个钩子。</p>
 </div>
 {% endraw %}
 
 ### `attached` <sup>已废弃</sup>
 
-在其他hook中进行「in-dom check」来替代。举例，替换如下的内容：
+在其他钩子中进行「in-dom check」来替代。举例，替换如下的内容：
 
 ``` js
 attached: function () {
@@ -110,13 +110,13 @@ mounted: function () {
 {% raw %}
 <div class="upgrade-path">
   <h4>升级路线</h4>
-  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到所有这个hook。</p>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到所有这个钩子。</p>
 </div>
 {% endraw %}
 
 ### `detached` <sup>已废弃</sup>
 
-在其他hook中进行「in-dom check」来替代。举例，替换如下的内容：
+在其他钩子中进行「in-dom check」来替代。举例，替换如下的内容：
 
 ``` js
 detached: function () {
@@ -137,24 +137,24 @@ destroyed: function () {
 {% raw %}
 <div class="upgrade-path">
   <h4>升级路线</h4>
-  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到所有这个hook。</p>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到所有这个钩子。</p>
 </div>
 {% endraw %}
 
 ### `init` <sup>已废弃</sup>
 
-使用新的hook `beforeCreate` 来替代。这实质上是同一个东西，只是换了名称，是为了和其他生命周期方法保持一致。
+使用新的钩子 `beforeCreate` 来替代。这实质上是同一个东西，只是换了名称，是为了和其他生命周期方法保持一致。
 
 {% raw %}
 <div class="upgrade-path">
   <h4>升级路线</h4>
-  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到所有这个hook。</p>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到所有这个钩子。</p>
 </div>
 {% endraw %}
 
 ### `ready` <sup>已废弃</sup>
 
-用新的hook `mounted` 来替代。 需要注意的是，在`mounted`时，不能保证已经「document ready」。因此需要加入`Vue.nextTick`/`vm.$nextTick`。举例：
+用新的钩子 `mounted` 来替代。 需要注意的是，在`mounted`时，不能保证已经「document ready」。因此需要加入`Vue.nextTick`/`vm.$nextTick`。举例：
 
 ``` js
 mounted: function () {
@@ -167,7 +167,7 @@ mounted: function () {
 {% raw %}
 <div class="upgrade-path">
   <h4>升级路线</h4>
-  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到所有这个hook。</p>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> 找到所有这个钩子。</p>
 </div>
 {% endraw %}
 
@@ -288,9 +288,9 @@ computed: {
 
 Props现在始终是单向流动的。要使组件的变动影响它的parent scope, 就需要在它自身emit事件来触发，而不是依赖于一个隐式的绑定。看以下这些链接了解更多：
 
-- [Custom component events](components.html#Custom-Events)
-- [Custom input components](components.html#Form-Input-Components-using-Custom-Events) (using component events)
-- [Global state management](state-management.html)
+- [自定义组件事件](components.html#Custom-Events)
+- [自定义input输入框事件](components.html#Form-Input-Components-using-Custom-Events) (using component events)
+- [全局状态管理](state-management.html)
 
 {% raw %}
 <div class="upgrade-path">
@@ -303,9 +303,9 @@ Props现在始终是单向流动的。要使组件的变动影响它的parent sc
 
 Props现在始终是单向流动的。要使组件的变动影响它的parent scope, 就需要在它自身emit事件来触发，而不是依赖于一个隐式的绑定。看以下这些链接了解更多：
 
-- [Custom component events](components.html#Custom-Events)
-- [Custom input components](components.html#Form-Input-Components-using-Custom-Events) (using component events)
-- [Global state management](state-management.html)
+- [自定义组件事件](components.html#Custom-Events)
+- [自定义input输入框事件](components.html#Form-Input-Components-using-Custom-Events) (using component events)
+- [全局状态管理](state-management.html)
 
 {% raw %}
 <div class="upgrade-path">
