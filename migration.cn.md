@@ -32,15 +32,15 @@ order: 24
 
 > 如果升级到了Vue 2, 也需要同时升级Vuex和Vue-Router吗？
 
-只有Vue-Router 2和Vue 2是兼容的，所以你也得按[migration path for Vue-Router](migration-vue-router.html) 中的内容来操作。幸运的是，大多数应用在router这块都没有太多代码，所以这部分应该不到一小时就可以搞定。
+只有Vue-Router 2和Vue 2是兼容的，所以你也得按[Vue-Router升级路线](migration-vue-router.html) 中的内容来操作。幸运的是，大多数应用在router这块都没有太多代码，所以这部分应该不到一小时就可以搞定。
 
-Vuex方面，甚至0.8版本都可以和Vue 2兼容，所以升级并非强制性的。唯一可能的升级理由是享受Vuex 2带来的好处和新特性，如模块化和reduced boilerplate。
+Vuex方面，甚至0.8版本都可以和Vue 2兼容，所以升级并非强制性的。唯一可能的升级理由是享受Vuex 2带来的好处和新特性，如模块化和更精简的样板。
 
 ## 模板
 
 ### Fragment实例 <sup>已废弃</sup>
 
-每个组件现在都需要有一个明确的root元素。Fragments实例已经不再支持。如果你有个template像这样：
+每个组件现在都需要有一个明确的根元素。碎片(Fragments)实例已经不再支持。如果你有个template像这样：
 
 ``` html
 <p>foo</p>
