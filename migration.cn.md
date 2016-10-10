@@ -240,7 +240,7 @@ mounted: function () {
 
 ## 属性
 
-### `coerce` Prop Option <sup>已废弃</sup>
+### `coerce` 属性选项 <sup>已废弃</sup>
 
 如果需要对一个属性值做转换（在设置值之前转换值），用一个computed的值来代替它。举例，如下的写法
 
@@ -284,7 +284,7 @@ computed: {
 </div>
 {% endraw %}
 
-### `twoWay` Prop Option <sup>已废弃</sup>
+### `twoWay` 属性选项 <sup>已废弃</sup>
 
 Props现在始终是单向流动的。要使组件的变动影响它的parent scope, 就需要在它自身emit事件来触发，而不是依赖于一个隐式的绑定。看以下这些链接了解更多：
 
@@ -299,7 +299,7 @@ Props现在始终是单向流动的。要使组件的变动影响它的parent sc
 </div>
 {% endraw %}
 
-### `v-bind` with `.once` and `.sync` Modifiers <sup>deprecated</sup>
+### `v-bind` with `.once` and `.sync` Modifiers <sup>已废弃</sup>
 
 Props现在始终是单向流动的。要使组件的变动影响它的parent scope, 就需要在它自身emit事件来触发，而不是依赖于一个隐式的绑定。看以下这些链接了解更多：
 
@@ -330,7 +330,7 @@ Props现在始终是单向流动的。要使组件的变动影响它的parent sc
 </div>
 {% endraw %}
 
-### Props on a Root Instance <sup>已废弃</sup>
+### 根实例上的属性 <sup>已废弃</sup>
 
 Vue根实例（Root Instance）上的 `props` 现在需要用 `propsData` 来替换。
 
@@ -1332,7 +1332,7 @@ Vue.set 和 Vue.delete在Vue实例上不再可用。现在需要强制在data选
 
 ## DOM相关的实例方法
 
-### `vm.$appendTo` <sup>deprecated</sup>
+### `vm.$appendTo` <sup>已废弃</sup>
 
 使用原生的DOM API：
 
@@ -1523,7 +1523,7 @@ HTML插值由于有[`v-html`](#HTML-Interpolation-deprecated)而被废弃了。
 
 ## 全局API
 
-### `Vue.extend` 和 `el` 结合使用 <sup>已废弃deprecated</sup>
+### `Vue.extend` 和 `el` 结合使用 <sup>已废弃</sup>
 
 el这个选项现在不再能和 `Vue.extend` 结合使用，只在一个实例被创建时才是一个有效的选项。
 

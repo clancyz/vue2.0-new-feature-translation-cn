@@ -56,20 +56,26 @@ The array syntax allows more predictable route matching, since iterating over an
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of <code>router.map</code> being called.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a>，找到关于 <code>router.map</code>的例子。</p>
 </div>
 {% endraw %}
 
 ### `router.on` <sup>deprecated</sup>
 
+### `router.on` <sup>已废弃</sup>
+
 If you need to programmatically generate routes when starting up your app, you can do so by dynamically pushing definitions to a routes array. For example:
 
+如果需要在应用开始时使用程序来生成路由，你也可以动态地把这些路由定义push到路由数组中。举例：
+
 ``` js
-// Normal base routes
+// 基础路由数组
 var routes = [
   // ...
 ]
 
-// Dynamically generated routes
+// 动态生成路由
 marketingPages.forEach(function (page) {
   routes.push({
     path: '/marketing/' + page.slug
@@ -89,6 +95,8 @@ var router = new Router({
 
 If you need to add new routes after the router has been instantiated, you can replace the router's matcher with a new one that includes the route you'd like to add:
 
+如果需要在路由初始化完成后添加新的路由，需要用一个包含你想添加的路由的matcher来替换原有路由的matcher：
+
 ``` js
 router.match = createMatcher(
   [{
@@ -102,23 +110,35 @@ router.match = createMatcher(
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of <code>router.on</code> being called.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a>，找到关于 <code>router.on<</code>的调用例子。</p>
 </div>
 {% endraw %}
 
 ### `subroutes` <sup>deprecated</sup>
 
+### `subroutes` <sup>已废弃</sup>
+
 [Renamed to `children`](http://router.vuejs.org/en/essentials/nested-routes.html) for consistency within Vue and with other routing libraries.
+
+[重命名为 `children`](http://router.vuejs.org/en/essentials/nested-routes.html) , 这是为了和其他的路由库保持一致。
 
 {% raw %}
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of the <code>subroutes</code> option.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a>，找到关于 <code>subroutes</code>选项的例子。</p>
 </div>
 {% endraw %}
 
 ### `router.redirect` <sup>deprecated</sup>
 
+### `router.redirect` <sup>已废弃</sup>
+
 This is now an [option on route definitions](http://router.vuejs.org/en/essentials/redirect-and-alias.html). So for example, you will update:
+
+这现在是一个 [路由定义的选项](http://router.vuejs.org/en/essentials/redirect-and-alias.html)。所以，如下的例子：
 
 ``` js
 router.redirect({
@@ -127,6 +147,8 @@ router.redirect({
 ```
 
 to a definition like below in your `routes` configuration:
+
+可以更新为如下的`路由`配置项：
 
 ``` js
 {
@@ -139,12 +161,18 @@ to a definition like below in your `routes` configuration:
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of <code>router.redirect</code> being called.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a>，找到关于 <code>router.redirect</code>的调用例子。</p>
 </div>
 {% endraw %}
 
 ### `router.alias` <sup>deprecated</sup>
 
+### `router.alias` <sup>已废弃</sup>
+
 This is now an [option on the definition for the route](http://router.vuejs.org/en/essentials/redirect-and-alias.html) you'd like to alias to. So for example, you will update:
+
+这现在是一个 [路由定义的选项](http://router.vuejs.org/en/essentials/redirect-and-alias.html)。所以，如下的例子：
 
 ``` js
 router.alias({
@@ -153,6 +181,8 @@ router.alias({
 ```
 
 to a definition like below in your `routes` configuration:
+
+可以更新为如下的`路由`配置项：
 
 ``` js
 {
@@ -164,6 +194,8 @@ to a definition like below in your `routes` configuration:
 
 If you need multiple aliases, you can also use an array syntax:
 
+如果需要更多别名，同样可以使用一个数组来表示：
+
 ``` js
 alias: ['/manage', '/administer', '/administrate']
 ```
@@ -172,16 +204,26 @@ alias: ['/manage', '/administer', '/administrate']
 <div class="upgrade-path">
   <h4>Upgrade Path</h4>
   <p>Run the <a href="https://github.com/vuejs/vue-migration-helper">migration helper</a> on your codebase to find examples of <code>router.alias</code> being called.</p>
+  <h4>升级路线</h4>
+  <p>在你的项目下运行<a href="https://github.com/vuejs/vue-migration-helper">migration helper</a>，找到关于 <code>router.alias</code>的调用例子。</p>
 </div>
 {% endraw %}
 
 ## Route Matching
 
+## 路由匹配
+
 Route matching now uses [path-to-regexp](https://github.com/pillarjs/path-to-regexp) under the hood, making it much more flexible than previously.
+
+路由匹配现在在内部使用 [路径-正则](https://github.com/pillarjs/path-to-regexp)来匹配，比起老版本更加灵活。
 
 ### One or More Named Parameters
 
+### 一或多个具名参数
+
 The syntax has changed slightly, so `/category/*tags` for example, should be updated to `/category/:tags+`.
+
+这个语法做了轻微的改动，
 
 {% raw %}
 <div class="upgrade-path">
